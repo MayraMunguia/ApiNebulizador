@@ -16,5 +16,5 @@ class Usuarios(Model):
     a_materno = CharField(max_length=200)
 
     def __str__(self):
-        return self.campaign
+        return self.nombre
 

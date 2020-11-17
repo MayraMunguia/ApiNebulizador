@@ -15,7 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from src.api.acceso import AccesoUsuariosCreateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    path('api/Acceso/', AccesoUsuariosCreateView.as_view(), name='acceso_edificio'),
+   
 ]

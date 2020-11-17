@@ -97,9 +97,9 @@ DATABASES = {
 }
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
-        'src.auth.permissions.ValidToken',
-    ),
+    # 'DEFAULT_PERMISSION_CLASSES': (
+    #     'src.auth.permissions.ValidToken',
+    # ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 100
 }
