@@ -15,6 +15,6 @@ class Usuarios(Model):
     a_paterno = CharField(max_length=200)
     a_materno = CharField(max_length=200)
 
-    def __str__(self):
-        return self.nombre
+    # def __str__(self):
+    #     return self.nombre
 
