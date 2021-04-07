@@ -1,6 +1,6 @@
 from django.db import models
 
 # Create your models here.
-from .acceso import *
+from .lectura import *
 from .dispositivos import *
 from .usuario import *
