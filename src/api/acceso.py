@@ -11,6 +11,7 @@ from rest_framework.status import (
     HTTP_500_INTERNAL_SERVER_ERROR
     )
 from datetime import datetime, date
+from decimal import *
 from django.db import transaction
 import json
 import logging
@@ -89,7 +90,11 @@ class InitiateCabinCreateView(ListCreateAPIView):
                 # validamos activo, accion a realizar y usuarioS
                 queryset = Lectura.objects.values_list('lectura', flat=True)
 
-                mean = sum(queryset)/len(queryset) 
+                sumquery = 0
+                for i in queryset:
+                    sumquery += Decimal(i)
+                    
+                mean = sumquery/len(queryset) 
                 print(mean)
                 flomean = float(mean)
                 var = 0
