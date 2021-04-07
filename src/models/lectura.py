@@ -14,8 +14,8 @@ class Lectura(Model):
     ''' 
         Modelo para guardar lecturas de sensores
     '''
-    fecha = DateTimeField(auto_now_add=True, editable=False)
-    lectura = DecimalField(max_digits = 7,decimal_places=3)
+    #fecha = DateTimeField(auto_now_add=True, editable=False)
+    lectura = CharField(max_length=6)
     # sensores = IntegerField(default=1)
 
 
