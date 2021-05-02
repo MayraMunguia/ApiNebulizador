@@ -15,14 +15,15 @@ from decimal import *
 from django.db import transaction
 import json
 import logging
+import paho.mqtt.client as mqtt
 from numpy import random
 logger = logging.getLogger(__name__)
 
 
-# MQTT_ADDRESS = '192.168.100.43'
-# MQTT_USER = 'kael1'
-# MQTT_PASSWORD = 'lonchis123'
-# MQTT_TOPIC = 'cabin/enable'
+MQTT_ADDRESS = '192.168.100.24'
+MQTT_USER = 'kael1'
+MQTT_PASSWORD = 'lonchis123'
+MQTT_TOPIC = 'bomba'
 
 # class AccesoUsuariosCreateView(ListCreateAPIView):
 #     """
@@ -93,8 +94,17 @@ class InitiateCabinCreateView(ListCreateAPIView):
                 temp = Lectura.objects.filter(sensores = "3").values_list('lectura', flat=True)
                 agua = Lectura.objects.filter(sensores = "4").values_list('lectura', flat=True).order_by('-id')[0]
 
-               
-               
+                #publish
+                mqtt_client = mqtt.Client()
+                mqtt_client.username_pw_set(MQTT_USER, MQTT_PASSWORD)
+                mqtt_client.connect(MQTT_ADDRESS, 1883)
+
+                hum =  hum_so = Lectura.objects.filter(sensores = "2").values_list('lectura', flat=True).order_by('-id')[0]
+                if(hum <= 80):
+                    mqtt_client.publish(MQTT_TOPIC,"ON")
+                else:
+                    mqtt_client.publish(MQTT_TOPIC,"OFF")
+                    print('hi from the mqtt side')
 
 
                 return_value={
