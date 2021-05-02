@@ -46,7 +46,7 @@ def on_message(mqtt_client, user_data, message):
     cursor.close()
 
     db_conn = user_data['db_conn']
-    sql = 'INSERT INTO models_lectura (lectura, sensores) VALUES (?,?a)'
+    sql = 'INSERT INTO models_lectura (lectura, sensores) VALUES (?,?)'
     cursor = db_conn.cursor()
     cursor.execute(sql, (chunks[3],4))
     db_conn.commit()
