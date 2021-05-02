@@ -103,7 +103,7 @@ class InitiateCabinCreateView(ListCreateAPIView):
                 if(float(hum) <= 80):
                     mqtt_client.publish(MQTT_TOPIC,"ON")
                 else:
-                    mqtt_client.publish(MQTT_TOPIC,"ON")
+                    mqtt_client.publish(MQTT_TOPIC,"OFF")
                     print('hi from the mqtt side')
 
 
