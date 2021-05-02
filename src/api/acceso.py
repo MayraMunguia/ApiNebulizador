@@ -88,32 +88,21 @@ class InitiateCabinCreateView(ListCreateAPIView):
         try:
             with transaction.atomic():
                 # validamos activo, accion a realizar y usuarioS
-                queryset = Lectura.objects.values_list('lectura', flat=True)
+                hum_air = Lectura.objects.filter(sensores = "1").values_list('lectura', flat=True)
+                hum_so = Lectura.objects.filter(sensores = "2").values_list('lectura', flat=True)
+                temp = Lectura.objects.filter(sensores = "3").values_list('lectura', flat=True)
+                agua = Lectura.objects.filter(sensores = "4").values_list('lectura', flat=True).order_by('-id')[0]
 
-                sumquery = 0
-                for i in queryset:
-                    sumquery += Decimal(i)
-                    
-                mean = sumquery/len(queryset) 
-                print(mean)
-                flomean = float(mean)
-                var = 0
-                for i in queryset:
-                    var = var + (float(i)- flomean)**2
-
-                var = var/len(queryset)
-                std= var ** .5 #calculates standard deviation
-
-
-                ul = round(flomean + 2*std, 3)
-                il = round(flomean - 2*std,3)
+               
+               
 
 
                 return_value={
                     "message" : "Se obtuvo la información correctamente.",
-                    "limInfer" : il,
-                    "limSuper": ul,
-                    "res" : list(queryset)
+                    "aire" : list(hum_air),
+                    "soil" : list(hum_so),
+                    "temp" : list(temp),
+                    "agua" : list(agua)
                 }
 
                 return Response(return_value,status=HTTP_200_OK)

@@ -16,8 +16,7 @@ class Lectura(Model):
     '''
     #fecha = DateTimeField(auto_now_add=True, editable=False)
     lectura = CharField(max_length=6)
-    # sensores = IntegerField(default=1)
-
+    sensores = CharField(max_length=6, default= 1)
 
     # def __str__(self):
     #     return self.usuario

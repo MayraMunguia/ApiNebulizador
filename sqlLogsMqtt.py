@@ -2,8 +2,10 @@
 import paho.mqtt.client as mqtt
 import sqlite3
 from datetime import datetime
+import statistics as st
+import psutil
  
-MQTT_HOST = '192.168.100.43'
+MQTT_HOST = '192.168.100.24'
 MQTT_PORT = 1883
 MQTT_CLIENT_ID = ''
 MQTT_USER = 'kael1'
@@ -19,14 +21,48 @@ def on_connect(mqtt_client, user_data, flags, conn_result):
  
 def on_message(mqtt_client, user_data, message):
     payload = message.payload.decode('utf-8')
+
+    chunks = payload.split(',')
  
     db_conn = user_data['db_conn']
-    sql = 'INSERT INTO models_lectura (lectura) VALUES (?)'
+    sql = 'INSERT INTO models_lectura (lectura, sensores) VALUES (?,?)'
     cursor = db_conn.cursor()
-    cursor.execute(sql, (payload,))
+    cursor.execute(sql, (chunks[0],1))
     db_conn.commit()
     cursor.close()
+
+    db_conn = user_data['db_conn']
+    sql = 'INSERT INTO models_lectura (lectura, sensores) VALUES (?,?)'
+    cursor = db_conn.cursor()
+    cursor.execute(sql, (chunks[1],2))
+    db_conn.commit()
+    cursor.close()
+
+    db_conn = user_data['db_conn']
+    sql = 'INSERT INTO models_lectura (lectura, sensores) VALUES (?,?)'
+    cursor = db_conn.cursor()
+    cursor.execute(sql, (chunks[2],3))
+    db_conn.commit()
+    cursor.close()
+
+    db_conn = user_data['db_conn']
+    sql = 'INSERT INTO models_lectura (lectura, sensores) VALUES (?,?a)'
+    cursor = db_conn.cursor()
+    cursor.execute(sql, (chunks[3],4))
+    db_conn.commit()
+    cursor.close()
+
  
+
+def checkInternet():
+    data=[]
+
+    for i in range (10):
+        data.append(psutil.cpu_percent(interval=0.5))
+
+    m=sum(data)/len(data)
+    std=st.stdev(data)
+    
  
 def main():
     db_conn = sqlite3.connect(DATABASE_FILE)
@@ -50,6 +86,7 @@ def main():
  
     mqtt_client.connect(MQTT_HOST, MQTT_PORT)
     mqtt_client.loop_forever()
- 
+
  
 main()
+
