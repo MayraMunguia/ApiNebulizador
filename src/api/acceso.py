@@ -100,7 +100,7 @@ class InitiateCabinCreateView(ListCreateAPIView):
                 mqtt_client.connect(MQTT_ADDRESS, 1883)
 
                 hum =  hum_so = Lectura.objects.filter(sensores = "2").values_list('lectura', flat=True).order_by('-id')[0]
-                if(int(hum) <= 80):
+                if(float(hum) <= 80):
                     mqtt_client.publish(MQTT_TOPIC,"ON")
                 else:
                     mqtt_client.publish(MQTT_TOPIC,"OFF")
