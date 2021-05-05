@@ -95,9 +95,9 @@ class InitiateCabinCreateView(ListCreateAPIView):
                 agua = Lectura.objects.filter(sensores = "4").values_list('lectura', flat=True).order_by('-id')[0]
 
                 # #publish
-                # mqtt_client = mqtt.Client()
-                # mqtt_client.username_pw_set(MQTT_USER, MQTT_PASSWORD)
-                # mqtt_client.connect(MQTT_ADDRESS, 1883)}
+                mqtt_client = mqtt.Client()
+                mqtt_client.username_pw_set(MQTT_USER, MQTT_PASSWORD)
+                mqtt_client.connect(MQTT_ADDRESS, 1883)
                 print('new query')
 
                 hum_tierra= Lectura.objects.filter(sensores = "2").values_list('lectura', flat=True).order_by('-id')[0]
