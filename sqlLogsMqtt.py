@@ -30,6 +30,7 @@ def on_message(mqtt_client, user_data, message):
     cursor.execute(sql, (chunks[0],1))
     db_conn.commit()
     cursor.close()
+    print("Humedad aire: ", chunks[0])
 
     db_conn = user_data['db_conn']
     sql = 'INSERT INTO models_lectura (lectura, sensores) VALUES (?,?)'
@@ -37,6 +38,7 @@ def on_message(mqtt_client, user_data, message):
     cursor.execute(sql, (chunks[1],2))
     db_conn.commit()
     cursor.close()
+    print("Humedad suelo: ", chunks[1])
 
     db_conn = user_data['db_conn']
     sql = 'INSERT INTO models_lectura (lectura, sensores) VALUES (?,?)'
@@ -44,6 +46,7 @@ def on_message(mqtt_client, user_data, message):
     cursor.execute(sql, (chunks[2],3))
     db_conn.commit()
     cursor.close()
+    print("Temperatura: ", chunks[2])
 
     db_conn = user_data['db_conn']
     sql = 'INSERT INTO models_lectura (lectura, sensores) VALUES (?,?)'
@@ -51,6 +54,9 @@ def on_message(mqtt_client, user_data, message):
     cursor.execute(sql, (chunks[3],4))
     db_conn.commit()
     cursor.close()
+    print("Agua: ", chunks[3])
+
+    print("-------------------------------------")
 
  
 

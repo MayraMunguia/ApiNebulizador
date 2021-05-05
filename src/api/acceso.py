@@ -94,16 +94,32 @@ class InitiateCabinCreateView(ListCreateAPIView):
                 temp = Lectura.objects.filter(sensores = "3").values_list('lectura', flat=True)
                 agua = Lectura.objects.filter(sensores = "4").values_list('lectura', flat=True).order_by('-id')[0]
 
-                #publish
-                mqtt_client = mqtt.Client()
-                mqtt_client.username_pw_set(MQTT_USER, MQTT_PASSWORD)
-                mqtt_client.connect(MQTT_ADDRESS, 1883)
+                # #publish
+                # mqtt_client = mqtt.Client()
+                # mqtt_client.username_pw_set(MQTT_USER, MQTT_PASSWORD)
+                # mqtt_client.connect(MQTT_ADDRESS, 1883)}
+                print('new query')
 
-                hum =  hum_so = Lectura.objects.filter(sensores = "2").values_list('lectura', flat=True).order_by('-id')[0]
-                if(float(hum) <= 80):
+                hum_tierra= Lectura.objects.filter(sensores = "2").values_list('lectura', flat=True).order_by('-id')[0]
+                hum_aire = Lectura.objects.filter(sensores = "1").values_list('lectura', flat=True).order_by('-id')[0]
+                
+                if(hum_aire >= 60 and  hum_aire <= 100):
+                    if(hum_tierra <= 20):
+                        mqtt_client.publish(MQTT_TOPIC,"ON")
+                elif(hum_aire >= 30 and hum_aire < 60 ):
+                    if(hum_tierra <= 40):
+                        mqtt_client.publish(MQTT_TOPIC,"ON")
+                elif(hum_tierra < 60):
                     mqtt_client.publish(MQTT_TOPIC,"ON")
                 else:
                     mqtt_client.publish(MQTT_TOPIC,"OFF")
+
+
+                if(float(hum) <= 80):
+                    print('hi from the mqtt side')
+                    # mqtt_client.publish(MQTT_TOPIC,"ON")
+                else:
+                    # mqtt_client.publish(MQTT_TOPIC,"OFF")
                     print('hi from the mqtt side')
 
 
