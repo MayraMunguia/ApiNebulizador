@@ -103,24 +103,16 @@ class InitiateCabinCreateView(ListCreateAPIView):
                 hum_tierra= Lectura.objects.filter(sensores = "2").values_list('lectura', flat=True).order_by('-id')[0]
                 hum_aire = Lectura.objects.filter(sensores = "1").values_list('lectura', flat=True).order_by('-id')[0]
                 
-                if(hum_aire >= 60 and  hum_aire <= 100):
-                    if(hum_tierra <= 20):
+                if(float(hum_aire) >= 60 and  float(hum_aire) <= 100):
+                    if(float(hum_tierra) <= 20):
                         mqtt_client.publish(MQTT_TOPIC,"ON")
-                elif(hum_aire >= 30 and hum_aire < 60 ):
-                    if(hum_tierra <= 40):
+                elif(float(hum_aire) >= 30 and float(hum_aire) < 60 ):
+                    if(float(hum_tierra) <= 40):
                         mqtt_client.publish(MQTT_TOPIC,"ON")
-                elif(hum_tierra < 60):
+                elif(float(hum_tierra) < 60):
                     mqtt_client.publish(MQTT_TOPIC,"ON")
                 else:
                     mqtt_client.publish(MQTT_TOPIC,"OFF")
-
-
-                if(float(hum) <= 80):
-                    print('hi from the mqtt side')
-                    # mqtt_client.publish(MQTT_TOPIC,"ON")
-                else:
-                    # mqtt_client.publish(MQTT_TOPIC,"OFF")
-                    print('hi from the mqtt side')
 
 
                 return_value={
